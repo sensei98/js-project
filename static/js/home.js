@@ -176,4 +176,55 @@ function buttonsRandom(){
 }
 //---------------------------------------------------------------------
 // CHALLENGE 5:  BLACKJACK!
+//deal removes all images from your box
+let blackjackGame = {
+    'you' : {'scoreSpan': '#your-blackjack-result', 'div' : '#your-box', 'score' : 0},
+    'dealer' : {'scoreSpan' : '#dealer-blackjack-result', 'div' : '#dealer-box', 'score' : 0},
+    'cards': ['2','3','4','5','6','7','8','9','10','K','J','Q','A'],
+}
+const YOU = blackjackGame['you']
+const DEALER = blackjackGame['dealer']
+
+// getting sounds and adding sound to button below
+const HITSOUND = new Audio('static/sounds/swish.m4a')
+
+//an event listener listening to the button with an id, and a click event calling the function below
+document.querySelector('#blackjack-hit-button').addEventListener('click',blackjackHit)
+document.querySelector('#blackjack-deal-button').addEventListener('click',blackjackDeal)
+
+function blackjackHit(){
+    let card = randomCard();
+    showCard(card,YOU);
+    //showCard(DEALER);
+}
+//choosing cards at random
+function randomCard(){
+    let randomIndex = Math.floor(Math.random()*13)
+    return blackjackGame['cards'][randomIndex]
+}
+//in charge of showing card and playing sounds
+function showCard(card,activePlayer){
+    //creating image element
+    let cardImage = document.createElement('img')
+    //getting the source of image
+    cardImage.src = `static/cards/${card}.png`
+    //adding image to div
+    document.querySelector(activePlayer['div']).appendChild(cardImage)
+    HITSOUND.play(); //playing the sound
+}
+
+function blackjackDeal(){
+    //getting all images in your box(returns all images in 'your box')
+    let yourImages = document.querySelector('#your-box').querySelectorAll('img')
+    let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img')
+    
+    for (let i = 0; i < yourImages.length; i++) {
+        yourImages[i].remove();
+        
+    }
+    for (let i = 0; i < dealerImages.length; i++) {
+        dealerImages[i].remove();
+        
+    }
+}
 
